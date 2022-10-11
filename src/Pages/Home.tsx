@@ -1,7 +1,10 @@
+import { Buttons } from "../Components/Buttons";
+
 export function Home () {
     return (
-        <div> Home page with sign in options or sign up
-            //just show some ads 
+        <div>
+            <Buttons variant="signIn">Sign in</Buttons>
+            <Buttons variant="signUp">Sign up</Buttons>
         </div>
     )
 }
