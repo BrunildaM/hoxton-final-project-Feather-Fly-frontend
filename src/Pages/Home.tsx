@@ -6,7 +6,6 @@ export function Home () {
         <div>
             <Buttons variant="signIn">Sign in</Buttons>
             <Buttons variant="signUp">Sign up</Buttons>
-            <SignUpForm />
         </div>
     )
 }

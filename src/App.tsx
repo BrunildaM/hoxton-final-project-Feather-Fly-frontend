@@ -5,6 +5,7 @@ import { Header } from './Components/Header'
 import { AdminLogIn } from './Pages/AdminLogIn'
 import { Home } from './Pages/Home'
 import { NotFound } from './Pages/NotFound'
+import { SignUp } from './Pages/SignUp'
 import { UserLogIn } from './Pages/UserLogIn'
 
 function App() {
@@ -23,8 +24,8 @@ function App() {
           />
           <Route path="/users/:id" element={<UserLogIn />} />
           <Route path="/admins/:id" element={<AdminLogIn />} />
-          {/* <Route path="/signUp" element={<SignUpForm />} />
-          <Route path="/signIn" element={<SignIn signIn={signIn} />} /> */}
+          <Route path="/signUp" element={<SignUp />} />
+          {/* <Route path="/signIn" element={<SignIn signIn={signIn} />} /> */}
 
           <Route path="*" element={<NotFound />} />
         </Routes>

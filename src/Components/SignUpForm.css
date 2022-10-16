@@ -26,6 +26,16 @@ html {
   box-shadow: 0 5px 30px 10px rgba(0, 0, 0, 0.4);
 }
 
+.radio {
+  display: grid;
+  grid-auto-flow: column;
+}
+
+.radioButton {
+  display: flex;
+  padding: 0.5rem;
+}
+
 /* Form */
 form {
   width: 90%;
