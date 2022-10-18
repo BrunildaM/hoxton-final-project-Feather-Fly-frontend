@@ -3,7 +3,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import "./App.css";
 import { Header } from "./Components/Header";
 import { SignInForm } from "./Components/SignInForm";
-import { Flight, User } from "./Components/types";
+import { Capital, Flight, User } from "./Components/types";
 import { AdminLogIn } from "./Pages/AdminLogIn";
 import { Home } from "./Pages/Home";
 import { NotFound } from "./Pages/NotFound";
@@ -12,6 +12,13 @@ import { UserLogIn } from "./Pages/UserLogIn";
 
 function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [capitals, setCapitals] = useState<Capital[]>([]);
+
+  useEffect(() => {
+    fetch("http://localhost:4000/capitals")
+      .then((res) => res.json())
+      .then((capitals) => setCapitals(capitals));
+  }, []);
   
 
   function signIn(data: any) {
@@ -48,8 +55,8 @@ function App() {
       <main>
         <Routes>
           <Route index element={<Navigate to="/home" />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/users/:id" element={<UserLogIn />} />
+          <Route path="/home" element={<Home capitals={capitals} />} />
+          <Route path="/users/:id" element={<UserLogIn capitals={capitals} />} />
           {/* <Route path="/admins/:id" element={<AdminLogIn />} /> */}
           <Route path="/signUp" element={<SignUp signIn={signIn} /> } />
           <Route path="/signIn" element={<SignInForm signIn={signIn} />} />

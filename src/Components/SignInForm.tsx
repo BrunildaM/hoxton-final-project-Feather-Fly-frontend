@@ -1,5 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Buttons } from "./Buttons";
+import './css/SignInForm.css'
 import { API } from "./types";
 
 type Props = {
@@ -15,77 +16,49 @@ export function SignInForm({ signIn }: Props) {
       email: event.target.email.value,
       password: event.target.password.value,
     };
-   
 
-
-      fetch(`${API}/sign-in`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      })
-      .then(res => res.json())
-     .then((data: any) => {
+    fetch(`${API}/sign-in`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data: any) => {
         if (data.error) {
           alert(data.error);
         } else {
           signIn(data);
-          if (data.user.role !== "admin") {
-            navigate("/users/:id");
-          } else if (data.user.role === "admin") {
-            navigate("/admins/:id");
-          } else {
-            navigate("/home");
-          }
+          navigate("/users/:id")
         }
-      })
-    }
+      });
+  }
 
   return (
     <div className="sign-in-page">
-      <div className="form-container">
-       
+      <section className="forms-section">
+        <h1 className="section-title">Welcome!</h1>
+        <div className="forms">
         <form
           className="form-section"
           onSubmit={(event) => handleSubmit(event)}
         >
           <input type="email" placeholder="Email" name="email" required />
+          <p></p>
           <input
             type="password"
             placeholder="Password"
             name="password"
             required
           />
-          <Buttons variant="signIn">
-            Sign In
-          </Buttons>
+          <Buttons variant="signIn">Sign In</Buttons>
         </form>
-
-        {/* <div className="or-div">
-          <hr />
-          OR
-          <hr />
         </div>
-        <div>
-          <form
-            className="create-account-section"
-            onSubmit={(event) => {
-              event.preventDefault();
-              localStorage.newUserEmail = event.currentTarget.email.value;
-              navigate("/select-role");
-            }}
-          >
-            <label htmlFor="email">
-              Email address <span>*</span>
-            </label>
-            <input id="email" type="email" name="email" required />
-            <Buttons variant="signUp">
-              Create Account
-            </Buttons>
-          </form>
-        </div> */}
-      </div>
+        <p>
+          Don't have an account <Link to={"/signUp"}>Sign up</Link>
+        </p>
+      </section>
     </div>
   );
 }

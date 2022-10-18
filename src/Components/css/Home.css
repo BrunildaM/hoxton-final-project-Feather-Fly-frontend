@@ -1,3 +1,8 @@
+.home {
+ background-color: darkgrey;
+}
+
+
 .search-flight {
   background: transparent
     url("http://cdn.onlinewebfonts.com/svg/img_367247.png") no-repeat center;
@@ -9,16 +14,30 @@
     display: grid;
     grid-auto-flow: column;
     align-items: center;
+    margin: 0;
 }
 
-.search-date{
+.search input {
+    height: 50px;
+}
+
+/* .search-date{
     padding-left: 4rem;
     margin: 0.5rem;
-}
+} */
 
 .wrapper {
     display: grid;
     align-items: center;
+    justify-self: center;
     border: 3px solid blue;
     padding: 1rem;
+    margin-left: 6rem;
+    margin-right: 6rem;
+    /* background-color: rgb(234, 227, 213); */
 }
+
+.search-list li {
+    list-style: none;
+}
+

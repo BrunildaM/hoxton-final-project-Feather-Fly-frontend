@@ -111,4 +111,12 @@ export type Passanger = {
     departureFlights: Flight[] 
     arrivalFlights:  Flight[]  
   }
+
+  export type Capital = {
+    id: number
+    image: string
+    name: string
+    flights: number
+    averagePrice: number
+  }
   

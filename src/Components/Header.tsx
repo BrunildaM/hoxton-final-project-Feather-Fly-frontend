@@ -27,7 +27,7 @@ export function Header() {
         src="https://www.kindpng.com/picc/m/235-2350682_new-svg-image-small-user-login-icon-hd.png"
         alt="user"
       /> My account
-      <div className="dropdown-content">
+      {/* <div className="dropdown-content">
         <ul>
           <li className="dropdown-sub-item">
       <Link className="link" to={`/signIn`}>
@@ -41,7 +41,7 @@ export function Header() {
       </li>
       </ul>
 
-      </div>
+      </div> */}
        </span>
     </div>
   );
