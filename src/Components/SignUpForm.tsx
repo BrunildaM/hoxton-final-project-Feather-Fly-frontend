@@ -1,4 +1,17 @@
+import { useState } from "react";
 import "./SignUpForm.css";
+
+
+export function SignUp () {
+  const [firstName, setFirstNAme ] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [age, setAge] = useState(0)
+  const [email, setEmail] = useState("")
+  const [password1, setPassword1] = useState("")
+  const [password2, setPassword2] = useState("")
+  const [gender, setGender] = useState("")
+
+}
 
 export function SignUpForm() {
   return (
@@ -86,6 +99,10 @@ export function SignUpForm() {
               <label className="radioButton">
                 <input type="radio" name="gender" value="female" />
                 Female
+              </label>
+              <label className="radioButton">
+                <input type="radio" name="other" value="female" />
+                Other
               </label>
             </div>
           </div>
