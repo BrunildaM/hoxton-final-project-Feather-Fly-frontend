@@ -1,25 +1,48 @@
-import { useState } from "react";
-import "./SignUpForm.css";
+import { useNavigate } from "react-router-dom";
+import "./css/SignUpForm.css" 
+import { API } from "./types";
 
+type Props = {
+  signIn: (data: any) => void;
+};
 
-export function SignUp () {
-  const [firstName, setFirstNAme ] = useState("")
-  const [lastName, setLastName] = useState("")
-  const [age, setAge] = useState(0)
-  const [email, setEmail] = useState("")
-  const [password1, setPassword1] = useState("")
-  const [password2, setPassword2] = useState("")
-  const [gender, setGender] = useState("")
-
-}
-
-export function SignUpForm() {
+export function SignUpForm({ signIn }: Props) {
+  const navigate = useNavigate()
   return (
     //gender and role is missing
     <section className="body">
       <div className="container">
         <h1>Sign Up Today!</h1>
-        <form className="form">
+        <form
+          className="form"
+          onSubmit={(event: any) => {
+            const newUser = {
+              firstName: event.target.firstName.value,
+              lastName: event.target.lastName.value,
+              age: Number(event.target.age.value),
+              email: event.target.email.value,
+              password: event.target.password.value,
+              gender: event.target.gender.value,
+            };
+            event.preventDefault();
+            fetch(`${API}/sign-up`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(newUser),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.error) {
+                  alert(data.error);
+                } else {
+                  signIn(data);
+                  navigate('/signIn')
+                }
+              });
+          }}
+        >
           <div className="form-group">
             <label htmlFor="firstName">First Name</label>
             <input
@@ -56,7 +79,7 @@ export function SignUpForm() {
               min={18}
             />
           </div>
-         
+
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
             <input
@@ -92,16 +115,32 @@ export function SignUpForm() {
           <div className="form-group">
             <label htmlFor="gender">Gender</label>
             <div className="radio">
-              <label className="radioButton">
-                <input type="radio" name="gender" value="male" />
-                Male
+              <label htmlFor="gender">
+                <input
+                  className="radioButton"
+                  type="radio"
+                  value="Male"
+                  name="gender"
+                  // checked={this.gender === "Male"}
+                />{" "}
+                Male{" "}
               </label>
-              <label className="radioButton">
-                <input type="radio" name="gender" value="female" />
+              <label htmlFor="gender">
+                <input
+                  className="radioButton"
+                  type="radio"
+                  value="Female"
+                  name="gender"
+                />{" "}
                 Female
               </label>
-              <label className="radioButton">
-                <input type="radio" name="other" value="female" />
+              <label htmlFor="gender">
+                <input
+                  className="radioButton"
+                  type="radio"
+                  value="Other"
+                  name="gender"
+                />{" "}
                 Other
               </label>
             </div>

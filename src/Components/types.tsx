@@ -1,3 +1,5 @@
+export  const API = "http://localhost:4000";
+
 export type User = {
   id:  number
   gender: string // to give the title on the ticket Mr Mrs or Ms

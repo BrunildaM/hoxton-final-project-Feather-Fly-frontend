@@ -51,7 +51,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/users/:id" element={<UserLogIn />} />
           {/* <Route path="/admins/:id" element={<AdminLogIn />} /> */}
-          <Route path="/signUp" element={<SignUp />} />
+          <Route path="/signUp" element={<SignUp signIn={signIn} /> } />
           <Route path="/signIn" element={<SignInForm signIn={signIn} />} />
 
           <Route path="*" element={<NotFound />} />

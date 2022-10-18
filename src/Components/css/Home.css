@@ -1,0 +1,24 @@
+.search-flight {
+  background: transparent
+    url("http://cdn.onlinewebfonts.com/svg/img_367247.png") no-repeat center;
+  background-size: 20px;
+  margin: 10px;
+}
+
+.search {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+}
+
+.search-date{
+    padding-left: 4rem;
+    margin: 0.5rem;
+}
+
+.wrapper {
+    display: grid;
+    align-items: center;
+    border: 3px solid blue;
+    padding: 1rem;
+}

@@ -1,8 +1,8 @@
-import './Button.css'
+import './css/Button.css'
 
 type Props = {
   children: string;
-  variant?: "signIn" | "signUp" | "signOut";
+  variant?: "signIn" | "signUp" | "signOut" | "search";
 };
 
 export function Buttons({ children, variant, ...rest }: Props) {
@@ -27,6 +27,14 @@ export function Buttons({ children, variant, ...rest }: Props) {
     style.backgroundColor = "#00008b";
     style.paddingBottom = "0.7rem";
     style.paddingTop = "0.7rem";
+  }
+
+  if (variant === "search") {
+    style.backgroundColor = "#00008b";
+    style.padding = "0.2rem"
+    style.borderRadius = "50px"
+    style.width = "100px"
+    style.justifySelf = "center"
   }
 
   return (

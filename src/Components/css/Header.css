@@ -1,0 +1,92 @@
+.header {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  background-color: rgb(230, 222, 214);
+  padding-left: 3rem;
+  padding-right: 3rem;
+  max-height: 200px;
+}
+
+.logo {
+  width: 120px;
+  height: fit-content;
+  border: solid black;
+  -moz-box-shadow: 10px 10px 5px #ccc;
+  -webkit-box-shadow: 10px 10px 5px #ccc;
+  box-shadow: 10px 10px 5px #ccc;
+  -moz-border-radius: 25px;
+  -webkit-border-radius: 25px;
+  border-radius: 25px;
+}
+
+.moto {
+  top: 50%;
+  right: 50%;
+  text-transform: uppercase;
+  font-family: verdana;
+  font-size: 2rem;
+  color: #5b4444;
+  text-shadow: 1px 1px 1px #919191, 1px 2px 1px #919191, 1px 3px 1px #919191,
+    1px 4px 1px #919191, 1px 5px 1px #919191, 1px 6px 1px #919191,
+    1px 7px 1px #919191, 1px 8px 1px #919191, 1px 9px 1px #919191,
+    1px 10px 1px #919191, 1px 18px 6px rgba(16, 16, 16, 0.4),
+    1px 22px 10px rgba(16, 16, 16, 0.2), 1px 25px 35px rgba(16, 16, 16, 0.2),
+    1px 30px 60px rgba(16, 16, 16, 0.4);
+}
+
+.userLogo {
+  width: 50px;
+  border-radius: 50%;
+  border: solid black 2px;
+  margin: 0.5rem;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  word-spacing: 3px;
+  font-weight: 700;
+  font-family: sans-serif;
+  
+ 
+}
+
+.dropdown-content  ul{
+  display: none;
+  position: absolute;
+  display: block;
+  margin: 12px -12px;
+  padding: 0;
+}
+
+.dropdown-sub-item {
+  margin: -2px 0 0 -2px;
+  width: calc(100% - 20px);
+  line-height: 1.7;
+  display: block;
+}
+
+.dropdown:hover ~ .dropdown-content {
+ display: block;
+}
+
+.dropdown-sub-item {
+    display: inline-block;
+}
+
+@keyframes slide-in {
+  0% {
+    top: -50px;
+  }
+  40% {
+    top: 20px;
+  }
+  70% {
+    top: 10px;
+  }
+  100% {
+    top: 15px;
+  }
+}

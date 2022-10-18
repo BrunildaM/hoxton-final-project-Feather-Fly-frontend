@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Buttons } from "./Buttons";
+import { API } from "./types";
 
 type Props = {
   signIn: (data: any) => void;
@@ -14,7 +15,7 @@ export function SignInForm({ signIn }: Props) {
       email: event.target.email.value,
       password: event.target.password.value,
     };
-    const API = "http://localhost:4000";
+   
 
 
       fetch(`${API}/sign-in`, {
