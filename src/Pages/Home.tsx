@@ -83,6 +83,7 @@ export function Home({capitals}: Props) {
         <label className="search">
           <input type="date" className="search-date" />
         </label>
+        {/* //after you fill the data for the search you click on this button and it will navigate you to the flights page */}
         <Buttons variant="search"> Search </Buttons>
       </div>
       <TrendingCapitals capitals={capitals} />

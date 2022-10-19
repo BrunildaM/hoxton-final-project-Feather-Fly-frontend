@@ -7,6 +7,7 @@ import { Capital, Flight, User } from "./Components/types";
 import { AdminLogIn } from "./Pages/AdminLogIn";
 import { Home } from "./Pages/Home";
 import { NotFound } from "./Pages/NotFound";
+import { SearchedFlight } from "./Pages/SearchedFlights";
 import { SignUp } from "./Pages/SignUp";
 import { UserLogIn } from "./Pages/UserLogIn";
 
@@ -60,6 +61,7 @@ function App() {
           {/* <Route path="/admins/:id" element={<AdminLogIn />} /> */}
           <Route path="/signUp" element={<SignUp signIn={signIn} /> } />
           <Route path="/signIn" element={<SignInForm signIn={signIn} />} />
+          <Route path="/flights" element={<SearchedFlight />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
