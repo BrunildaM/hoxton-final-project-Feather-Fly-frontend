@@ -52,7 +52,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
+      <Header currentUser={currentUser} signOut={signOut} />
       <main>
         <Routes>
           <Route index element={<Navigate to="/home" />} />
@@ -62,6 +62,7 @@ function App() {
           <Route path="/signUp" element={<SignUp signIn={signIn} /> } />
           <Route path="/signIn" element={<SignInForm signIn={signIn} />} />
           <Route path="/flights" element={<SearchedFlight />} />
+          <Route path="/logOut" element={<SearchedFlight />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

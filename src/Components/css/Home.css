@@ -1,6 +1,6 @@
-.home {
+/* .home {
  background-color: darkgrey;
-}
+} */
 
 
 .search-flight {
@@ -41,3 +41,28 @@
     list-style: none;
 }
 
+
+.custom-select {
+    height: calc(1.5em + 0.5rem + 2px);
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.5rem;
+    font-size: 0.875rem;
+}
+
+
+.inc-dec-button{
+    font-size: 20px;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+}
+
+.margin-elements {
+    margin: 0px 5px;
+}
+
+.input-number {
+    border: none !important;
+    width: 20px;
+}

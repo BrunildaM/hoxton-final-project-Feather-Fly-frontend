@@ -2,47 +2,52 @@ import { Link } from "react-router-dom";
 import logo from "./assets/logo.png";
 import { Buttons } from "./Buttons";
 import "./css/Header.css";
+import { User } from "./types";
 
-export function Header() {
+type Props = {
+  currentUser: User | null;
+  signOut: () => void
+};
+
+export function Header({ currentUser, signOut }: Props) {
+
+  let userId = 0;
+  if (currentUser != null) {
+    userId = currentUser.id; 
+  }
+  console.log(userId)
   return (
     <div className="header">
       <Link to="/">
         <img className="logo" src={logo} alt="logo" />
-        </Link>
-        <h1 className="moto">FEATHER FLY, REACH THE SKY!</h1>
+      </Link>
+      <h1 className="moto">FEATHER FLY, REACH THE SKY!</h1>
 
-
-        {/* <li>
-      <a href="#0">Clients</a>
-      <ul>
-        <li><a href="#0">Burger King</a></li>
-        <li><a href="#0">Southwest Airlines</a></li>
-        <li><a href="#0">Levi Strauss</a></li>
-      </ul>
-    </li> */}
-        
-      <span className="dropdown"> 
+      <span className="dropdown">
         <img
-        className="userLogo"
-        src="https://www.kindpng.com/picc/m/235-2350682_new-svg-image-small-user-login-icon-hd.png"
-        alt="user"
-      /> My account
-      {/* <div className="dropdown-content">
-        <ul>
-          <li className="dropdown-sub-item">
-      <Link className="link" to={`/signIn`}>
-      <Buttons variant="signIn">Sign in</Buttons>
-      </Link>
-      </li>
-      <li>
-      <Link className="link" to={`/signUp`}>
-      <Buttons variant="signUp">Sign up</Buttons>
-      </Link>
-      </li>
-      </ul>
+          className="userLogo dropbtn"
+          src="https://www.kindpng.com/picc/m/235-2350682_new-svg-image-small-user-login-icon-hd.png"
+          alt="user"
+        />
+        <span className="my-account">My account</span>
+        <div className="dropdown-content">
 
-      </div> */}
-       </span>
+          {userId === 0 ? (
+            <>
+              <Link className="link" to={`/signIn`}>
+                <Buttons variant="signIn">Sign in</Buttons>
+              </Link>
+              <Link className="link" to={`/signUp`}>
+                <Buttons variant="signUp">Sign up</Buttons>
+              </Link>{" "}
+            </>
+          ) : (
+            <Link className="link" to={`/home`}>
+              <button onClick={signOut}>Log out</button>
+            </Link>
+          )}
+        </div>
+      </span>
     </div>
   );
 }
