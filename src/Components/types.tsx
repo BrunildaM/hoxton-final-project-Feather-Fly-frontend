@@ -44,13 +44,13 @@ export type Flight = {
 
 
 export type Passanger = {
-    id: number
+    id?: number
     firstName: string
     lastName: string
     gender: string // to give the title on the ticket Mr Mrs or Ms
     age: number
-    booking:   Booking 
-    bookingId: number
+    booking?:   Booking
+    bookingId?: number
   }
   
 

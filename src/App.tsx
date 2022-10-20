@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import "./App.css";
 import { Header } from "./Components/Header";
+import { PassengersForm } from "./Components/PassengersForm";
 import { SignInForm } from "./Components/SignInForm";
 import { API, Capital, Flight, User } from "./Components/types";
 import { Home } from "./Pages/Home";
@@ -84,6 +85,7 @@ function App() {
           <Route path="/signIn" element={<SignInForm signIn={signIn} />} />
           <Route path="/flights" element={<SearchedFlight />} />
           <Route path="/logOut" element={<SearchedFlight />} />
+          <Route path="/passengersForm" element={<PassengersForm />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

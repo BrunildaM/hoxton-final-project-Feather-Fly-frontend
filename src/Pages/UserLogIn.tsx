@@ -1,15 +1,14 @@
 import { Charts } from "../Components/Charts";
 import { API, Capital, Flight, Ticket } from "../Components/types";
-import "../Components/css/UserLogIn.css"
-import { useParams } from "react-router-dom";
-
-
+import "../Components/css/UserLogIn.css";
+import { SearchFlights } from "../Components/SearchFlights";
+import { Link } from "react-router-dom";
 
 type Props = {
   capitals: Capital[];
   flights: Flight[];
   isAdmin: boolean;
-  setFlights: React.Dispatch<React.SetStateAction<Flight[]>>
+  setFlights: React.Dispatch<React.SetStateAction<Flight[]>>;
 };
 
 function transformDate(date: Date) {
@@ -28,51 +27,106 @@ function transformDate(date: Date) {
   }${month}/${year}  Time: ${hours}:${prependZero ? "0" : ""}${minutes}`;
 }
 
-
-
 export function UserLogIn({ capitals, flights, isAdmin, setFlights }: Props) {
+  function cancelFlight(flight: Flight) {
+    fetch(`${API}/flights/${flight.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: (flight.status = "X") }),
+    });
 
-    function cancelFlight (flight: Flight) {
-        fetch(`${API}/flights/${flight.id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json" 
-            }, 
-            body: JSON.stringify({status: flight.status = "X"})   
-        })
+    let flightsCopy = JSON.parse(JSON.stringify(flights));
+    let match = flightsCopy.find((target: Flight) => target.id === flight.id);
+    match.status = "X";
+    setFlights(flightsCopy);
+  }
 
-        let flightsCopy = JSON.parse(JSON.stringify(flights))
-        let match = flightsCopy.find((target: Flight) => target.id === flight.id)
-        match.status = "X"
-        setFlights(flightsCopy)
-    }
+  // function delayFlight (flight: Flight, date: string) {
+  //     const updatedDate = new Date(date)
+  //     fetch(`${API}/flights/${flight.id}`, {
+  //         method: "PATCH",
+  //         headers: {
+  //             "Content-Type": "application/json"
+  //         },
+  //         body: JSON.stringify({departureTime: transformDate(updatedDate) })
+  //     })
+
+  //     let flightsCopy = JSON.parse(JSON.stringify(flights))
+  //     let match = flightsCopy.find((target: Flight) => target.id === flight.id)
+  //     match.status = transformDate(updatedDate)
+  //     setFlights(flightsCopy)
+  // }
+
 
   return (
     <div>
-        search form
+   <SearchFlights flights={flights} />
+   <div>
+  
+  {isAdmin ? null : (
+    <>
+    <h3>My list of passengers</h3>
+    < Link to={"/passengersForm"}>
+    Add new passengers +
+    </Link> 
+    </>
+  ) } 
+
+
+   </div>
       <div className="flights">
         <h2>Flights</h2>
-       
+
         {flights.map((flight: Flight) => (
           <div className="flight-details" key={flight.id}>
             <div className="airline">
-            <img className="airline-logo" src={flight.flyCompany.logo} alt="logo" />
-            <p>{flight.flyCompany.name}</p>
+              <img
+                className="airline-logo"
+                src={flight.flyCompany.logo}
+                alt="logo"
+              />
+              <p>{flight.flyCompany.name}</p>
             </div>
-            {isAdmin ? <p>Flight number: <p></p> {flight.flightNumber}</p> : null }
-            <p>Departure: <p></p> {flight.departsFrom.name}</p>
-            <p>Arrival: <p></p> {flight.arrivesAt.name}</p>
-            <p>Departure time: <p></p> {transformDate(flight.departureTime)} </p>
-           
-            {isAdmin ? (<p>Tickets: <p></p> {flight.tickets.length}</p>) : null}
-            {(flight.status === "OK") ? null : <p className="cancel">This flight is canceled</p> }
-            {isAdmin ? <button onClick={() => {cancelFlight(flight)}} className={flight.status === "OK" ? "status-btn" : "cancel-btn"}>{flight.status}</button> : null}
-          
+            {isAdmin ? (
+              <p>
+                Flight number: <p></p> {flight.flightNumber}
+              </p>
+            ) : null}
+            <p>
+              Departure: <p></p> {flight.departsFrom.name}
+            </p>
+            <p>
+              Arrival: <p></p> {flight.arrivesAt.name}
+            </p>
+            {/* <input type="text" name="date" id="" onInput={() =>{delayFlight(flight, oninput!.toString() )}}/> */}
+            <p>
+              Departure time: <p></p> {transformDate(flight.departureTime)}{" "}
+            </p>
 
+            {isAdmin ? (
+              <p>
+                Tickets: <p></p> {flight.tickets.length}
+              </p>
+            ) : null}
+            {flight.status === "OK" ? null : (
+              <p className="cancel">This flight is canceled</p>
+            )}
+            {isAdmin ? (
+              <button
+                onClick={() => {
+                  cancelFlight(flight);
+                }}
+                className={flight.status === "OK" ? "status-btn" : "cancel-btn"}
+              >
+                {flight.status}
+              </button>
+            ) : null}
           </div>
         ))}
       </div>
-     {isAdmin ? <Charts capitals={capitals} /> : null} 
+      {isAdmin ? <Charts capitals={capitals} /> : null}
     </div>
   );
 }
