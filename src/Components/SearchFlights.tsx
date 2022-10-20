@@ -17,7 +17,7 @@ export function SearchFlights ({setFlights}: Props) {
             .then(res => res.json())
             .then(flightsFromDb => setFlights(flightsFromDb))
         } else if (departure && arrival && time === "") {
-            //fetch only 
+            //fetch
 
         }
     }

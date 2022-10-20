@@ -3,6 +3,7 @@ import { Buttons } from "../Components/Buttons";
 import { TrendingCapitals } from "../Components/TrendingCapitals";
 import { useEffect, useState } from "react";
 import { API, Capital, Flight } from "../Components/types";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   capitals: Capital[];
@@ -13,6 +14,8 @@ export function Home({ capitals }: Props) {
   const [flights, setFlights] = useState<Flight[]>([]);
   const [passengersNum, setPassengersNum] = useState(1);
   const [data, setData] = useState();
+
+  const navigate = useNavigate()
 
   let incPassengersNum = () => {
     if (passengersNum < 9) {
@@ -30,62 +33,44 @@ export function Home({ capitals }: Props) {
     setPassengersNum(e.target.value);
   };
 
+  function handleSubmit (event: any) {
+    event.preventDefault();
+    const ticket = {
+      // class: event.target.class.value,
+      // passengersNum: event.target.passengersNum.value,
+      departs: event.target.departs,
+      arrives: event.target.arrives,
+      date:  event.target.date
+    };
+
+    fetch(`${API}/search`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(ticket),
+    })
+      .then((res) => res.json())
+      .then((data: any) => {
+        if (data.error) {
+          alert(data.error);
+        } else {
+          navigate("/flights")
+        }
+      });
+  }
+
   useEffect(() => {
     fetch(`${API}/flights`)
       .then((res) => res.json())
       .then((flights) => setFlights(flights));
   }, []);
 
-  const departedFlights = flights.filter((flight: Flight) =>
-    flight.departsFrom.location.toLowerCase().includes(search.toLowerCase())
-  );
-
-  // const searchDepart = departedFlights.map(
-  //   (flight) => flight.departsFrom.location
-  // );
-
-  const arrivalFlights = flights.filter((flight: Flight) =>
-    flight.arrivesAt.location.toLowerCase().includes(search.toLowerCase())
-  );
-
-
-  const searchTickets = async (event: any) => {
-
-    try {
-      const response = await fetch(`${API}/search`, {
-        method: 'POST',
-        body: JSON.stringify({
-          departs: event.target.departs.value,
-          arrives:  event.target.arrives.value,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      
-      })
-      // .then(res => res.json())
-      // .then(setData())
-
-      // if (!response.ok) {
-      //   throw new Error(`Error! status: ${response.status}`);
-      // }
-
-      // const result = await response.json();
-
-      // console.log('result is: ', JSON.stringify(result, null, 4));
-
-      // setData(result);
-    } catch (err) {
-      console.log(err)
-    } 
-  };
-
-  console.log(data);
-
 
   return (
     <div className="home">
-      <h1>Find and compare cheap flights</h1>
+      <h2>Find and compare cheap flights</h2>
+      <form onSubmit={handleSubmit}>
       <div className="search">
         <h3>One-way</h3>
         <div>
@@ -131,16 +116,33 @@ export function Home({ capitals }: Props) {
         </div>
       </div>
       <div className="wrapper">
-        <label className="search">
+       
+
+      {/* <label for="ice-cream-choice">Choose a flavor:</label>
+<input list="ice-cream-flavors" id="ice-cream-choice" name="ice-cream-choice">
+
+<datalist id="ice-cream-flavors">
+    <option value="Chocolate">
+    <option value="Coconut">
+    <option value="Mint">
+    <option value="Strawberry">
+    <option value="Vanilla">
+</datalist> */}
+
+
+        <label className="search" >
           <input
             type="text"
             placeholder="From"
             name="departs"
             className="search-flight"
-            onChange={(searchDepart) => {
-              setSearch(searchDepart.target.value);
-            }}
+            list="departure"
           />
+          <datalist id="departure">
+            {flights.map(flight => (
+              <option value={flight.departsFrom.location}>{flight.departsFrom.name}</option>
+            ))}
+          </datalist>
           <p></p>
           <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOdbPqME0Y061QgGZAA7AjGKDJPc3wj-lC1Q&usqp=CAU"
@@ -152,20 +154,27 @@ export function Home({ capitals }: Props) {
             placeholder="To"
             name="arrives"
             className="search-flight"
-            onChange={(arrivalFlight) => {
-              setSearch(arrivalFlight.target.value);
-            }}
+           list="arrives"
           />
         </label>
+        <datalist id="arrives">
+          {flights.map(flight => (
+            <option value={flight.arrivesAt.location}>{flight.arrivesAt.location}</option>
+          ))}
+        </datalist>
         <label className="search">
           <input type="date" className="search-date" />
         </label>
         {/* //after you fill the data for the search you click on this button and it will navigate you to the flights page */}
-        <button  onClick={searchTickets}>
-          {/* {" "} */}
-          Search{" "}
-        </button>
+
+        <Buttons variant="search" 
+        // //@ts-ignore
+        // onClick={searchTickets}
+        >
+          Search
+        </Buttons>
       </div>
+      </form>
       <TrendingCapitals capitals={capitals} />
     </div>
   );
