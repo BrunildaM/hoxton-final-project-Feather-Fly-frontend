@@ -1,0 +1,7 @@
+.charts {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  margin: 0;
+  
+}

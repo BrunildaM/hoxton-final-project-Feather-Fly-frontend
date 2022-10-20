@@ -30,7 +30,7 @@ export function SignInForm({ signIn }: Props) {
           alert(data.error);
         } else {
           signIn(data);
-          navigate("/users/:id")
+          navigate(`/users/${data.user.id}`)
         }
       });
   }

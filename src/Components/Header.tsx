@@ -6,16 +6,11 @@ import { User } from "./types";
 
 type Props = {
   currentUser: User | null;
-  signOut: () => void
+  signOut: () => void;
 };
 
 export function Header({ currentUser, signOut }: Props) {
 
-  let userId = 0;
-  if (currentUser != null) {
-    userId = currentUser.id; 
-  }
-  console.log(userId)
   return (
     <div className="header">
       <Link to="/">
@@ -29,10 +24,14 @@ export function Header({ currentUser, signOut }: Props) {
           src="https://www.kindpng.com/picc/m/235-2350682_new-svg-image-small-user-login-icon-hd.png"
           alt="user"
         />
-        <span className="my-account">My account</span>
-        <div className="dropdown-content">
+        {(currentUser === null) ? ( 
+          <span className="my-account">My account</span>
+         ) : (
+          <span className="my-account">Welcome {currentUser.firstName}</span>
+        )}
 
-          {userId === 0 ? (
+        <div className="dropdown-content">
+          {currentUser === null ? (
             <>
               <Link className="link" to={`/signIn`}>
                 <Buttons variant="signIn">Sign in</Buttons>
