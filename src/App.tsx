@@ -7,7 +7,7 @@ import { SignInForm } from "./Components/SignInForm";
 import { API, Capital, Flight, User } from "./Components/types";
 import { Home } from "./Pages/Home";
 import { NotFound } from "./Pages/NotFound";
-import { SearchedFlight } from "./Pages/SearchedFlights";
+import { SearchedFlights } from "./Pages/SearchedFlights";
 import { SignUp } from "./Pages/SignUp";
 import { UserLogIn } from "./Pages/UserLogIn";
 
@@ -15,6 +15,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [capitals, setCapitals] = useState<Capital[]>([]);
   const [flights, setFlights] = useState<Flight[]>([]);
+  const [availableFlights, setAvailableFlights] = useState([])
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -41,6 +42,8 @@ function App() {
     setCurrentUser(null);
     localStorage.removeItem("token");
   }
+
+  
 
   useEffect(() => {
     if (localStorage.token) {
@@ -78,13 +81,14 @@ function App() {
                 flights={flights}
                 isAdmin={isAdmin}
                 setFlights={setFlights}
+                setAvailableFlights={setAvailableFlights}
               />
             }
           />
           <Route path="/signUp" element={<SignUp signIn={signIn} />} />
           <Route path="/signIn" element={<SignInForm signIn={signIn} />} />
-          <Route path="/flights" element={<SearchedFlight />} />
-          <Route path="/logOut" element={<SearchedFlight />} />
+          <Route path="/flights" element={<SearchedFlights availableFlights={availableFlights} />} />
+          <Route path="/logOut" element={<Home capitals={capitals} flights={flights} />} />
           <Route path="/passengersForm" element={<PassengersForm />} />
 
           <Route path="*" element={<NotFound />} />

@@ -9,12 +9,13 @@ type Props = {
   flights: Flight[];
   isAdmin: boolean;
   setFlights: React.Dispatch<React.SetStateAction<Flight[]>>;
+  setAvailableFlights: any
 };
 
 function transformDate(date: Date) {
   const myDate = new Date(date);
   const day = myDate.getDate();
-  const month = myDate.getMonth();
+  const month = myDate.getMonth() + 1;
   const year = myDate.getFullYear();
   const hours = myDate.getHours();
   const minutes = myDate.getMinutes();
@@ -27,7 +28,13 @@ function transformDate(date: Date) {
   }${month}/${year}  Time: ${hours}:${prependZero ? "0" : ""}${minutes}`;
 }
 
-export function UserLogIn({ capitals, flights, isAdmin, setFlights }: Props) {
+export function UserLogIn({
+  capitals,
+  flights,
+  isAdmin,
+  setFlights,
+  setAvailableFlights,
+}: Props) {
   function cancelFlight(flight: Flight) {
     fetch(`${API}/flights/${flight.id}`, {
       method: "PATCH",
@@ -43,39 +50,33 @@ export function UserLogIn({ capitals, flights, isAdmin, setFlights }: Props) {
     setFlights(flightsCopy);
   }
 
-  // function delayFlight (flight: Flight, date: string) {
-  //     const updatedDate = new Date(date)
-  //     fetch(`${API}/flights/${flight.id}`, {
-  //         method: "PATCH",
-  //         headers: {
-  //             "Content-Type": "application/json"
-  //         },
-  //         body: JSON.stringify({departureTime: transformDate(updatedDate) })
-  //     })
+  function delayFlight(flight: Flight, date: string) {
+    const updatedDate = new Date(date);
+    fetch(`${API}/flights/${flight.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ departureTime: transformDate(updatedDate) }),
+    });
 
-  //     let flightsCopy = JSON.parse(JSON.stringify(flights))
-  //     let match = flightsCopy.find((target: Flight) => target.id === flight.id)
-  //     match.status = transformDate(updatedDate)
-  //     setFlights(flightsCopy)
-  // }
-
+    let flightsCopy = JSON.parse(JSON.stringify(flights));
+    let match = flightsCopy.find((target: Flight) => target.id === flight.id);
+    match.status = transformDate(updatedDate);
+    setFlights(flightsCopy);
+  }
 
   return (
     <div>
-   <SearchFlights flights={flights} />
-   <div>
-  
-  {isAdmin ? null : (
-    <>
-    <h3>My list of passengers</h3>
-    < Link to={"/passengersForm"}>
-    Add new passengers +
-    </Link> 
-    </>
-  ) } 
-
-
-   </div>
+      <SearchFlights flights={flights} setAvailableFlights={setAvailableFlights} />
+      <div>
+        {isAdmin ? null : (
+          <>
+            <h3>My list of passengers</h3>
+            <Link to={"/passengersForm"}>Add new passengers +</Link>
+          </>
+        )}
+      </div>
       <div className="flights">
         <h2>Flights</h2>
 
@@ -102,7 +103,16 @@ export function UserLogIn({ capitals, flights, isAdmin, setFlights }: Props) {
             </p>
             {/* <input type="text" name="date" id="" onInput={() =>{delayFlight(flight, oninput!.toString() )}}/> */}
             <p>
-              Departure time: <p></p> {transformDate(flight.departureTime)}{" "}
+              Departure time: <p></p>
+              {/* <button onClick={(event) => {delayFlight(flight, event?.target.date.value )}}>
+                <input type="text" name="date" id="" />
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/2972/2972549.png"
+                  alt=""
+                  width={30}
+                />
+              </button> */}
+              {transformDate(flight.departureTime)}
             </p>
 
             {isAdmin ? (
