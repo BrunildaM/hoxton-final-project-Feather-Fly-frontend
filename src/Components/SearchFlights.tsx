@@ -1,19 +1,18 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Buttons } from "./Buttons";
 import { API, Flight } from "./types";
-import "./css/Home.css"
+import "./css/Home.css";
 
 type Props = {
   flights: Flight[];
-  setAvailableFlights: any
+  setAvailableFlights: any;
 };
 
 export function SearchFlights({ flights, setAvailableFlights }: Props) {
   const [passengersNum, setPassengersNum] = useState(1);
- 
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
 
   let incPassengersNum = () => {
     if (passengersNum < 9) {
@@ -33,81 +32,75 @@ export function SearchFlights({ flights, setAvailableFlights }: Props) {
 
   return (
     <div>
-        <div className="search">
-          <h3>One-way</h3>
+      <div className="search">
+        <h3>One-way</h3>
 
-          <div>
-            <label>
-              <strong>Class:</strong>{" "}
-            </label>
-            <select name="classes" id="classes" className="custom-select">
-              <option value="Economy class">Economy class</option>
-              <option value="Bussines class">Bussines class</option>
-              <option value="First class">First class</option>
-            </select>
-          </div>
-
-          <div>
-            <ul className="search-list">
-              <h3>
-                <img
-                  src="https://svgsilh.com/svg/160620.svg"
-                  alt=""
-                  width={50}
-                />
-                Passengers
-                <button
-                  className="inc-dec-button margin-elements"
-                  onClick={decPassengersNum}
-                >
-                  -
-                </button>
-                <input
-                  type="text"
-                  className="margin-elements input-number"
-                  value={passengersNum}
-                  onChange={handleChange}
-                />
-                <button
-                  className="inc-dec-button margin-elements"
-                  onClick={incPassengersNum}
-                >
-                  +
-                </button>
-              </h3>
-            </ul>
-          </div>
-          
+        <div>
+          <label>
+            <strong>Class:</strong>{" "}
+          </label>
+          <select name="classes" id="classes" className="custom-select">
+            <option value="Economy class">Economy class</option>
+            <option value="Bussines class">Bussines class</option>
+            <option value="First class">First class</option>
+          </select>
         </div>
 
-        <div className="wrapper">
-        <form className="search-form"
-        onSubmit={(e) => {
-        
-          e.preventDefault()
-          const search = {
-            departure: e.target.departure.value,
-            arrival: e.target.arrival.value,
-            time: e.target.time.value,
-            // classes: event.target.classes.value,
-            // passengers: event.target.passengers.value
-          };
-          
-       
-           fetch(`${API}/flights/${search.departure}/${search.arrival}/${search.time}`).
-          then((res) => res.json())
-          .then((data: any) => {
-            if (data.error) {
-              alert(data.error);
-            } else {
-              console.log(data)
-              // setAvailableFlights(data);
-              navigate("/flights")
-            }
-          });
+        <div>
+          <ul className="search-list">
+            <h3>
+              <img src="https://svgsilh.com/svg/160620.svg" alt="" width={50} />
+              Passengers
+              <button
+                className="inc-dec-button margin-elements"
+                onClick={decPassengersNum}
+              >
+                -
+              </button>
+              <input
+                type="text"
+                className="margin-elements input-number"
+                value={passengersNum}
+                onChange={handleChange}
+              />
+              <button
+                className="inc-dec-button margin-elements"
+                onClick={incPassengersNum}
+              >
+                +
+              </button>
+            </h3>
+          </ul>
+        </div>
+      </div>
 
-        }}
-      >
+      <div className="wrapper">
+        <form
+          className="search-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            const search = {
+              //@ts-ignore
+              departure: e.target.departure.value,
+              //@ts-ignore
+              arrival: e.target.arrival.value,
+              //@ts-ignore
+              time: e.target.time.value,
+              // classes: event.target.classes.value,
+              // passengers: event.target.passengers.value
+            };
+
+            fetch(
+              `${API}/flights/${search.departure}/${search.arrival}/${search.time}`
+            )
+              .then((res) => res.json())
+              .then((data: any) => {
+                console.log(data);
+                setAvailableFlights(data);
+                navigate("/flights");
+              });
+          }}
+        >
           <label className="search">
             <input
               type="text"
@@ -118,7 +111,7 @@ export function SearchFlights({ flights, setAvailableFlights }: Props) {
             />
             <datalist id="departure">
               {flights.map((flight) => (
-                <option  key={flight.id} value={flight.departsFrom.location}>
+                <option key={flight.id} value={flight.departsFrom.location}>
                   {flight.departsFrom.name}
                 </option>
               ))}
@@ -148,18 +141,9 @@ export function SearchFlights({ flights, setAvailableFlights }: Props) {
           <label className="search">
             <input type="date" name="time" className="search-date" />
           </label>
-          {/* //after you fill the data for the search you click on this button and it will navigate you to the flights page */}
-
-          <Buttons
-            variant="search"
-            // //@ts-ignore
-            // onClick={searchTickets}
-          >
-            Search
-          </Buttons>
-          </form>
-        </div>
-   
+          <Buttons variant="search">Search</Buttons>
+        </form>
+      </div>
     </div>
   );
 }

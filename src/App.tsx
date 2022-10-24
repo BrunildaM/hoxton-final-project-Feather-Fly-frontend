@@ -15,7 +15,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [capitals, setCapitals] = useState<Capital[]>([]);
   const [flights, setFlights] = useState<Flight[]>([]);
-  const [availableFlights, setAvailableFlights] = useState([])
+  const [availableFlights, setAvailableFlights] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -43,8 +43,6 @@ function App() {
     localStorage.removeItem("token");
   }
 
-  
-
   useEffect(() => {
     if (localStorage.token) {
       fetch("http://localhost:4000/validate", {
@@ -71,7 +69,13 @@ function App() {
           <Route index element={<Navigate to="/home" />} />
           <Route
             path="/home"
-            element={<Home capitals={capitals} flights={flights} />}
+            element={
+              <Home
+                capitals={capitals}
+                flights={flights}
+                setAvailableFlights={setAvailableFlights}
+              />
+            }
           />
           <Route
             path="/users/:id"
@@ -87,8 +91,20 @@ function App() {
           />
           <Route path="/signUp" element={<SignUp signIn={signIn} />} />
           <Route path="/signIn" element={<SignInForm signIn={signIn} />} />
-          <Route path="/flights" element={<SearchedFlights availableFlights={availableFlights} />} />
-          <Route path="/logOut" element={<Home capitals={capitals} flights={flights} />} />
+          <Route
+            path="/flights"
+            element={<SearchedFlights flights={flights} setAvailableFlights={setAvailableFlights} availableFlights={availableFlights} />}
+          />
+          <Route
+            path="/logOut"
+            element={
+              <Home
+                capitals={capitals}
+                flights={flights}
+                setAvailableFlights={setAvailableFlights}
+              />
+            }
+          />
           <Route path="/passengersForm" element={<PassengersForm />} />
 
           <Route path="*" element={<NotFound />} />

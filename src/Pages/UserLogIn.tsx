@@ -3,13 +3,15 @@ import { API, Capital, Flight, Ticket } from "../Components/types";
 import "../Components/css/UserLogIn.css";
 import { SearchFlights } from "../Components/SearchFlights";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { Buttons } from "../Components/Buttons";
 
 type Props = {
   capitals: Capital[];
   flights: Flight[];
   isAdmin: boolean;
   setFlights: React.Dispatch<React.SetStateAction<Flight[]>>;
-  setAvailableFlights: any
+  setAvailableFlights: any;
 };
 
 function transformDate(date: Date) {
@@ -20,12 +22,15 @@ function transformDate(date: Date) {
   const hours = myDate.getHours();
   const minutes = myDate.getMinutes();
   const prependZero = minutes.toString().length === 1;
+  const prependHourZero = hours.toString().length === 1;
   const prependDateZero = day.toString().length === 1;
   const prependMonthZero = month.toString().length === 1;
 
   return `Date: ${prependDateZero ? "0" : ""}${day}/${
     prependMonthZero ? "0" : ""
-  }${month}/${year}  Time: ${hours}:${prependZero ? "0" : ""}${minutes}`;
+  }${month}/${year}  Time: ${prependHourZero ? "0" : ""}${hours}:${
+    prependZero ? "0" : ""
+  }${minutes}`;
 }
 
 export function UserLogIn({
@@ -35,40 +40,90 @@ export function UserLogIn({
   setFlights,
   setAvailableFlights,
 }: Props) {
+  
   function cancelFlight(flight: Flight) {
-    fetch(`${API}/flights/${flight.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status: (flight.status = "X") }),
-    });
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, cancel it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`${API}/flights/${flight.id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: (flight.status = "X") }),
+        });
 
-    let flightsCopy = JSON.parse(JSON.stringify(flights));
-    let match = flightsCopy.find((target: Flight) => target.id === flight.id);
-    match.status = "X";
-    setFlights(flightsCopy);
+        let flightsCopy = JSON.parse(JSON.stringify(flights));
+        let match = flightsCopy.find(
+          (target: Flight) => target.id === flight.id
+        );
+        match.status = "X";
+        setFlights(flightsCopy);
+        Swal.fire("Deleted!", "Your flight has been canceled.", "success");
+      }
+    });
   }
 
-  function delayFlight(flight: Flight, date: string) {
-    const updatedDate = new Date(date);
-    fetch(`${API}/flights/${flight.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
+  function delayFlight(flight: Flight) {
+    Swal.fire({
+      title: "Enter new date",
+      html:
+        transformDate(flight.departureTime) +
+        "</span> <br>" +
+        "<div>" +
+        "<br/>" +
+        "<label>New Date: </label>" +
+        '<input type = "date" id="new_date" name = "new_date" >' +
+        "</div>",
+      inputAttributes: {
+        autocapitalize: "off",
       },
-      body: JSON.stringify({ departureTime: transformDate(updatedDate) }),
-    });
+      showCancelButton: true,
+      confirmButtonText: "Change",
+      showLoaderOnConfirm: true,
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //@ts-ignore
+        let newDate = document.getElementById("new_date")!.value;
 
-    let flightsCopy = JSON.parse(JSON.stringify(flights));
-    let match = flightsCopy.find((target: Flight) => target.id === flight.id);
-    match.status = transformDate(updatedDate);
-    setFlights(flightsCopy);
+        const updatedDate = new Date(newDate);
+        fetch(`${API}/flights/${flight.id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ departureTime: updatedDate }),
+        });
+
+        let flightsCopy = JSON.parse(JSON.stringify(flights));
+        let match = flightsCopy.find(
+          (target: Flight) => target.id === flight.id
+        );
+        match.departureTime = updatedDate;
+        setFlights(flightsCopy);
+
+        Swal.fire({
+          title: `Success`,
+          text: "Date changed successfully",
+        });
+      }
+    });
   }
 
   return (
     <div>
-      <SearchFlights flights={flights} setAvailableFlights={setAvailableFlights} />
+      <SearchFlights
+        flights={flights}
+        setAvailableFlights={setAvailableFlights}
+      />
       <div>
         {isAdmin ? null : (
           <>
@@ -77,6 +132,7 @@ export function UserLogIn({
           </>
         )}
       </div>
+      {isAdmin ? <Charts capitals={capitals} /> : null}
       <div className="flights">
         <h2>Flights</h2>
 
@@ -101,17 +157,18 @@ export function UserLogIn({
             <p>
               Arrival: <p></p> {flight.arrivesAt.name}
             </p>
-            {/* <input type="text" name="date" id="" onInput={() =>{delayFlight(flight, oninput!.toString() )}}/> */}
+
             <p>
               Departure time: <p></p>
-              {/* <button onClick={(event) => {delayFlight(flight, event?.target.date.value )}}>
-                <input type="text" name="date" id="" />
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/2972/2972549.png"
-                  alt=""
-                  width={30}
-                />
-              </button> */}
+            {isAdmin ? (<Buttons
+                variant="search"
+                //@ts-ignore
+                onClick={() => {
+                  delayFlight(flight);
+                }}
+              >
+                Change
+              </Buttons>) : (null) }  
               {transformDate(flight.departureTime)}
             </p>
 
@@ -136,7 +193,6 @@ export function UserLogIn({
           </div>
         ))}
       </div>
-      {isAdmin ? <Charts capitals={capitals} /> : null}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import './css/Button.css'
+import "./css/Button.css";
 
 type Props = {
   children: string;
@@ -14,7 +14,8 @@ export function Buttons({ children, variant, ...rest }: Props) {
   };
 
   if (variant === "signIn") {
-    style.backgroundColor = "radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%)";
+    style.backgroundColor =
+      "radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%)";
   }
 
   if (variant === "signUp") {
@@ -31,10 +32,10 @@ export function Buttons({ children, variant, ...rest }: Props) {
 
   if (variant === "search") {
     style.backgroundColor = "#00008b";
-    style.padding = "0.2rem"
-    style.borderRadius = "50px"
-    style.width = "100px"
-    style.justifySelf = "center"
+    style.padding = "0.2rem";
+    style.borderRadius = "50px";
+    style.width = "100px";
+    style.justifySelf = "center";
   }
 
   return (

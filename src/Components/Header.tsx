@@ -10,7 +10,6 @@ type Props = {
 };
 
 export function Header({ currentUser, signOut }: Props) {
-
   return (
     <div className="header">
       <Link to="/">
@@ -24,9 +23,9 @@ export function Header({ currentUser, signOut }: Props) {
           src="https://www.kindpng.com/picc/m/235-2350682_new-svg-image-small-user-login-icon-hd.png"
           alt="user"
         />
-        {(currentUser === null) ? ( 
+        {currentUser === null ? (
           <span className="my-account">My account</span>
-         ) : (
+        ) : (
           <span className="my-account">Welcome {currentUser.firstName}</span>
         )}
 

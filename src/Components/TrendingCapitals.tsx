@@ -1,15 +1,11 @@
-
 import { Capital } from "./types";
 import "../Components/css/TrendingCapitals.css";
 
 type Props = {
-  capitals: Capital[]
-}
+  capitals: Capital[];
+};
 
-
-export function TrendingCapitals({capitals}: Props) {
- 
-
+export function TrendingCapitals({ capitals }: Props) {
   return (
     <>
       <h1>Trending cities</h1>
@@ -25,8 +21,6 @@ export function TrendingCapitals({capitals}: Props) {
           </ul>
         ))}
       </div>
-
-     
     </>
   );
 }

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./css/SignUpForm.css" 
+import "./css/SignUpForm.css";
 import { API } from "./types";
 
 type Props = {
@@ -7,9 +7,8 @@ type Props = {
 };
 
 export function SignUpForm({ signIn }: Props) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
-    //gender and role is missing
     <section className="body">
       <div className="container">
         <h1>Sign Up Today!</h1>
@@ -37,8 +36,7 @@ export function SignUpForm({ signIn }: Props) {
                 if (data.error) {
                   alert(data.error);
                 } else {
-                  signIn(data);
-                  navigate('/signIn')
+                  navigate("/signIn");
                 }
               });
           }}
@@ -121,7 +119,6 @@ export function SignUpForm({ signIn }: Props) {
                   type="radio"
                   value="Male"
                   name="gender"
-                  // checked={this.gender === "Male"}
                 />{" "}
                 Male{" "}
               </label>

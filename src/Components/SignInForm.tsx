@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Buttons } from "./Buttons";
-import './css/SignInForm.css'
+import "./css/SignInForm.css";
 import { API } from "./types";
 
 type Props = {
@@ -30,7 +30,7 @@ export function SignInForm({ signIn }: Props) {
           alert(data.error);
         } else {
           signIn(data);
-          navigate(`/users/${data.user.id}`)
+          navigate(`/users/${data.user.id}`);
         }
       });
   }
@@ -40,20 +40,20 @@ export function SignInForm({ signIn }: Props) {
       <section className="forms-section">
         <h1 className="section-title">Welcome!</h1>
         <div className="forms">
-        <form
-          className="form-section"
-          onSubmit={(event) => handleSubmit(event)}
-        >
-          <input type="email" placeholder="Email" name="email" required />
-          <p></p>
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            required
-          />
-          <Buttons variant="signIn">Sign In</Buttons>
-        </form>
+          <form
+            className="form-section"
+            onSubmit={(event) => handleSubmit(event)}
+          >
+            <input type="email" placeholder="Email" name="email" required />
+            <p></p>
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              required
+            />
+            <Buttons variant="signIn">Sign In</Buttons>
+          </form>
         </div>
         <p>
           Don't have an account <Link to={"/signUp"}>Sign up</Link>

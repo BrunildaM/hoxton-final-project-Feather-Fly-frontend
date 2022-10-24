@@ -1,38 +1,37 @@
 .flight-details {
-    display: grid;
-    grid-auto-flow: column;
-    align-items: center;
-    border: 1px solid burlywood;
-    padding: 1rem;
-    margin: 0.5rem;
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  border: 1px solid burlywood;
+  padding: 1rem;
+  margin: 0.5rem;
 }
 
 .airline {
-    display: block;   
+  display: block;
 }
 
 .flight-details p {
-    font-weight: bolder;
+  font-weight: bolder;
 }
 
 .airline-logo {
-    width: 80px;
-    border: 2px solid;
+  width: 80px;
+  border: 2px solid;
 }
 
 .status-btn {
-    width: 60px;
-    background-color: darkgreen;
-    justify-self: center;
+  width: 60px;
+  background-color: darkgreen;
+  justify-self: center;
 }
 
 .cancel-btn {
-    width: 60px;
-    background-color: rgb(89, 8, 8);
-    justify-self: center;
+  width: 60px;
+  background-color: rgb(89, 8, 8);
+  justify-self: center;
 }
 
 .cancel {
-    color: darkred;
+  color: darkred;
 }
-

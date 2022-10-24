@@ -1,31 +1,26 @@
-
 .sign-in-page {
-	margin: 0;
-	font-family: sans-serif;
-	height: 100vh;
-
+  margin: 0;
+  font-family: sans-serif;
+  height: 100vh;
 }
 
 .forms-section {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-    gap: 1rem;
-   
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
 .section-title {
-	font-size: 32px;
-	letter-spacing: 1px;
+  font-size: 32px;
+  letter-spacing: 1px;
 }
 
 .forms {
-	display: flex;
-	align-items: flex-start;
-	margin: 5rem;
-    padding: 3rem;
-    border: 3px solid rgb(7, 7, 60) ;
+  display: flex;
+  align-items: flex-start;
+  margin: 5rem;
+  padding: 3rem;
+  border: 3px solid rgb(7, 7, 60);
 }
-
-

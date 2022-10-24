@@ -5,13 +5,12 @@ import "./css/Passengers.css";
 export function PassengersForm() {
   const [passengers, setPassengers] = useState<Passanger[]>([]);
   useEffect(() => {
-    // setInterval(() => {
+    setInterval(() => {
       fetch(`${API}/passengers`)
         .then((res) => res.json())
         .then((passengersFromDb) => setPassengers(passengersFromDb));
-    // }, 1000);
+    }, 1000);
   }, []);
-
 
   function deletePassenger(passenger: Passanger) {
     fetch(`${API}/passengers/${passenger.id}`, {
@@ -19,14 +18,15 @@ export function PassengersForm() {
     });
 
     const passengersCopy = JSON.parse(JSON.stringify(passengers));
-    let updatedPassengers = passengersCopy.filter((target: Passanger) => target.id !== passenger.id);
+    let updatedPassengers = passengersCopy.filter(
+      (target: Passanger) => target.id !== passenger.id
+    );
 
     setPassengers(updatedPassengers);
   }
 
   return (
     <div className="passengers-wrapper">
-      {/* <h4>Add new passengers</h4> */}
       <form
         className="form"
         onSubmit={(event: any) => {
@@ -133,7 +133,16 @@ export function PassengersForm() {
               <td>{passenger.lastName}</td>
               <td>{passenger.age}</td>
               <td>{passenger.gender}</td>
-              <td> <button onClick={() => {deletePassenger(passenger)}}>X</button> </td>
+              <td>
+                {" "}
+                <button
+                  onClick={() => {
+                    deletePassenger(passenger);
+                  }}
+                >
+                  X
+                </button>{" "}
+              </td>
             </tr>
           ))}
         </tbody>

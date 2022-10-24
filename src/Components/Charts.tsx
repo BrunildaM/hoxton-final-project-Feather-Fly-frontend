@@ -1,4 +1,14 @@
-import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, PieChart, Pie } from "recharts";
+import {
+  BarChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  Bar,
+  AreaChart,
+  Area,
+} from "recharts";
 import { Capital } from "./types";
 import "./css/Charts.css";
 
@@ -11,38 +21,29 @@ export function Charts({ capitals }: Props) {
     <>
       <h3>Most visited capitals</h3>
       <div className="charts">
-        <BarChart width={500} height={200} data={capitals}>
+        <BarChart width={700} height={200} data={capitals}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name"></XAxis>
           <YAxis />
           <Tooltip />
           <Legend />
-          {/* <Bar dataKey="averagePrice" name="Price" fill="#8884d8" /> */}
-          <Bar dataKey="flights" name="Flights" fill="#82ca9d" />
+          <Bar dataKey="flights" name="Flights" fill="#000000" />
         </BarChart>
 
-        <PieChart width={400} height={400}>
-          <Pie
-            dataKey="averagePrice"
-            isAnimationActive={false}
-            data={capitals}
-            cx="50%"
-            cy="50%"
-            outerRadius={80}
-            fill="#8884d8"
-            label
-          />
-          <Pie
-            dataKey="flights"
-            data={capitals}
-            cx={500}
-            cy={200}
-            innerRadius={40}
-            outerRadius={80}
-            fill="#82ca9d"
-          />
+        <AreaChart width={700} height={300} data={capitals}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
           <Tooltip />
-        </PieChart>
+          <Legend />
+          <Area
+            type="monotone"
+            dataKey="averagePrice"
+            name="Average Price/Ticket"
+            stroke="#8884d8"
+            fill="#8884d8"
+          />
+        </AreaChart>
       </div>
     </>
   );
